@@ -19,9 +19,9 @@ public class MyController {
     @ResponseBody
     @RequestMapping("test")
     public String test(){
-        System.out.println("------------------------");
-        System.out.println(applicationContext.getBeanDefinitionCount());
-        System.out.println(applicationContext.getBeanDefinitionNames());
+//        System.out.println("------------------------");
+//        System.out.println(applicationContext.getBeanDefinitionCount());
+//        System.out.println(applicationContext.getBeanDefinitionNames());
         return "ok";
     }
 }
