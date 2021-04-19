@@ -10,6 +10,11 @@ import java.lang.reflect.Proxy;
  *
  * @Author by yuanpeng
  * @Date 2020/12/12
+ *  mybatis通过org.mybatis.spring.mapper.MapperFactoryBean#getObject()来获取代理mapper接口的对象，
+ *  MapperFactoryBean类似于MyFactoryBean，都实现了FactoryBean接口
+ *  getObject方法-》getSqlSession().getMapper(this.mapperInterface)类似于MyBeanPostProcessor类中通过
+ *  UserMapper userMapper = (UserMapper) applicationContext.getBean("userMapper")获取mapper
+ *  MapperProxy是mybatis中的一个代理类类似于MyInvocationHandler
  */
 public class MyFactoryBean<T> implements FactoryBean<T> {
     /**

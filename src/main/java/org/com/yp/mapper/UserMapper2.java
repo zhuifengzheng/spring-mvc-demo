@@ -8,14 +8,14 @@ import org.com.yp.annotation.Select;
  * @Author by yuanpeng
  * @Date 2020/12/12
  */
-//@Mapper
-public interface UserMapper {
+@Mapper
+public interface UserMapper2 {
     /**
      * 模拟查询数据库
      * @param id
      * @return
      */
     @Select(value = "select userName from user where id = #{id}")
-    String findNameById(Long id);
+    String findNameById2(Long id);
 
 }

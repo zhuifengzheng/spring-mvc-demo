@@ -33,7 +33,6 @@ public class MyImportBean implements ImportBeanDefinitionRegistrar {
         //AnnotationAttributes fromMap = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMapper.class.getName()));
 
 
-
         MyScanPackages scanPackages = new MyScanPackages(registry);
         AnnotationAttributes attributes = (AnnotationAttributes) importingClassMetadata.getAnnotationAttributes(EnableMapper.class.getName());
 
@@ -44,6 +43,7 @@ public class MyImportBean implements ImportBeanDefinitionRegistrar {
         String[] packages = attributes.getStringArray("basePackages");
         String basePackages = packages[0];
 
+        // todo TypeFilter可以根据正则匹配处理切面
         scanPackages.addIncludeFilter(new TypeFilter() {
             @Override
             public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory) throws IOException {
@@ -55,6 +55,7 @@ public class MyImportBean implements ImportBeanDefinitionRegistrar {
 
         if (beanDefinitionHolders.isEmpty()){
             System.out.println("没有加载到有@Mapper注解的相关的类");
+            return;
         }
         for (BeanDefinitionHolder beanDefinitionHolder : beanDefinitionHolders) {
             GenericBeanDefinition beanDefinition = (GenericBeanDefinition)beanDefinitionHolder.getBeanDefinition();
@@ -64,11 +65,15 @@ public class MyImportBean implements ImportBeanDefinitionRegistrar {
             Class<? extends GenericBeanDefinition> aClass = beanDefinition.getClass();
             // 这里注入代理类
             beanDefinition.setBeanClass(MyFactoryBean.class);
-            // 通过带参数的构造器注入 这一步要在setBeanClass之前，不然类型就变成代理类型了
+            // 通过带参数的构造器注入 这一步要在setBeanClass之后，不然类型就变成代理类型了
+            // todo beanClassName为org.com.yp.mapper.UserMapper，这里是设置MyFactoryBean构造方法中的参数
             beanDefinition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName);
 //            beanDefinition.getConstructorArgumentValues().addGenericArgumentValue("org.com.yp.MyController");
-
+//            beanDefinition.setBeanClassName(beanClassName);
             beanDefinition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
+
+//            registry.registerBeanDefinition(beanClassName, beanDefinition);
+
         }
     }
 }

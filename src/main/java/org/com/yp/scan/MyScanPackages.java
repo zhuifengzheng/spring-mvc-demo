@@ -9,6 +9,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
+import org.springframework.core.annotation.MergedAnnotation;
 
 import java.util.Set;
 
@@ -43,7 +44,11 @@ public class MyScanPackages extends ClassPathBeanDefinitionScanner {
 
     @Override
     protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-        Mapper[] annotationsByType = beanDefinition.getClass().getAnnotationsByType(Mapper.class);
+        // 这个类MissingMergedAnnotation需要导入包，由于这里不是maven项目，所以暂时判断为接口返回true，正常应该是接口并且有@Mapper注解的才注入bean
+//        MissingMergedAnnotation<Mapper> mapperMergedAnnotation = (MissingMergedAnnotation)beanDefinition.getMetadata().getAnnotations().get(Mapper.class);
+//        if ( mapperMergedAnnotation.synthesizedAnnotation != null && beanDefinition.getMetadata().isInterface()){
+//            return true;
+//        }
         // 是接口并且有@Mapper注解的才注入bean
         return beanDefinition.getMetadata().isInterface();
     }

@@ -12,8 +12,8 @@
 
 <!--    <bean class="org.com.yp.MyBean" name="myBean2"></bean>-->
     <bean name="test" class="org.com.yp.Test">
-        <constructor-arg name="id" value="1"></constructor-arg>
-        <constructor-arg name="name" value="test"></constructor-arg>
+        <property name="id" value="2"/>
+        <property name="name" value="testname"/>
     </bean>
     <context:component-scan base-package="org.com.yp"/>
 
